@@ -17,6 +17,12 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Model
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Infrastructure", "src\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj", "{89B4FB83-7B2A-465F-88EC-724B71DFCB8C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD9D32C4-5D5D-41DE-B57E-34484519CEEA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

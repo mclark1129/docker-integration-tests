@@ -23,8 +23,19 @@ let listenToQueue receiveMessagesAsync handleMessage (cancellationToken:Cancella
         messages |> Seq.iter handleMessage
 
         if cancellationToken.IsCancellationRequested 
-        then return ()
+        then 
+            let log = Logging.logger "SQS"
+            log <| Logging.Info "Graceful shutdown received"
+            return ()
         else return! loop ()
     }
 
     loop ()
+
+let createClient useLocalStack = 
+    let config = 
+        if useLocalStack 
+        then AmazonSQSConfig (ServiceURL = "http://localhost:4576") 
+        else AmazonSQSConfig ()
+       
+    new AmazonSQSClient(config)

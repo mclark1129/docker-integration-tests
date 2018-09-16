@@ -1,4 +1,4 @@
-﻿module Db
+﻿module NumberTrackingService.Infrastructure.Db
 
 open Npgsql
 open Dapper

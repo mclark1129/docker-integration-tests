@@ -6,20 +6,31 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json" />
+    <Compile Include="Configuration.fs" />
+    <Compile Include="Bootstrapper.fs" />
     <Compile Include="Program.fs" />
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+
+  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="Argu" Version="5.1.0" />
     <PackageReference Include="AWSSDK.SQS" Version="3.3.3.19" />
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="npgsql" Version="4.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj" />
     <ProjectReference Include="..\NumberTrackingService.Models\NumberTrackingService.Models.fsproj" />
   </ItemGroup>
 
