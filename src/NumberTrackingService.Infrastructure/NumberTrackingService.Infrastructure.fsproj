@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Logging.fs" />
     <Compile Include="Configuration.fs" />
     <Compile Include="Sqs.fs" />
     <Compile Include="Db.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.SQS" Version="3.3.3.19" />

@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="Configuration.fs" />
+    <Compile Include="Client.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj" />
+    <ProjectReference Include="..\NumberTrackingService.Models\NumberTrackingService.Models.fsproj" />
   </ItemGroup>
 
 </Project>

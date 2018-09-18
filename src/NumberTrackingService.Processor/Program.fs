@@ -1,9 +1,7 @@
 ﻿open Argu
 open Microsoft.Extensions.Hosting
 open NumberTrackingService.Infrastructure.Configuration
-open NumberTrackingService.Processor.Configuration
 open NumberTrackingService.Processor.Bootstrapper
-open System
 
 type ProgramArguments = Config_Source of ConfigSource
 with
@@ -17,10 +15,8 @@ let main argv =
     let parser = ArgumentParser.Create<ProgramArguments>()
     let results = parser.ParseCommandLine argv
     let configSource = results.GetResult(Config_Source, App_Settings)
-    let config = loadConfig<ProcessorConfiguration> configSource
     
-    let serviceHost = createServiceHost config
+    let serviceHost = createServiceHost configSource
     serviceHost.RunConsoleAsync().Wait()
 
-    Console.ReadLine() |> ignore
     0 // return an integer exit code

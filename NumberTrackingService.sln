@@ -3,25 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Processor", "src\NumberTrackingService.Processor\NumberTrackingService.Processor.fsproj", "{75191478-079B-4B69-A4FD-9EE13F980616}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NumberTrackingService.Processor", "src\NumberTrackingService.Processor\NumberTrackingService.Processor.fsproj", "{75191478-079B-4B69-A4FD-9EE13F980616}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Client", "src\NumberTrackingService.Client\NumberTrackingService.Client.fsproj", "{778D429E-CFD7-413B-8883-B930DBB72FA1}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NumberTrackingService.Client", "src\NumberTrackingService.Client\NumberTrackingService.Client.fsproj", "{778D429E-CFD7-413B-8883-B930DBB72FA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{52C2B67E-7470-4C9A-9682-DFEC5DCC7471}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9FA1F729-C0B3-40E5-A5A1-7FD268A2C83E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Api", "src\NumberTrackingService.Api\NumberTrackingService.Api.fsproj", "{DD16CF96-FD1E-46D6-B560-40D8B95157A8}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NumberTrackingService.Api", "src\NumberTrackingService.Api\NumberTrackingService.Api.fsproj", "{DD16CF96-FD1E-46D6-B560-40D8B95157A8}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Models", "src\NumberTrackingService.Models\NumberTrackingService.Models.fsproj", "{0FDF7D77-9914-4EF1-8AB8-D653F1E47557}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NumberTrackingService.Models", "src\NumberTrackingService.Models\NumberTrackingService.Models.fsproj", "{0FDF7D77-9914-4EF1-8AB8-D653F1E47557}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.Infrastructure", "src\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj", "{89B4FB83-7B2A-465F-88EC-724B71DFCB8C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NumberTrackingService.Infrastructure", "src\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj", "{89B4FB83-7B2A-465F-88EC-724B71DFCB8C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD9D32C4-5D5D-41DE-B57E-34484519CEEA}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NumberTrackingService.IntegrationTests", "tests\NumberTrackingService.IntegrationTests\NumberTrackingService.IntegrationTests.fsproj", "{4177BA33-A48A-45F3-BD32-B8803A44C51E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{89B4FB83-7B2A-465F-88EC-724B71DFCB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89B4FB83-7B2A-465F-88EC-724B71DFCB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89B4FB83-7B2A-465F-88EC-724B71DFCB8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4177BA33-A48A-45F3-BD32-B8803A44C51E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4177BA33-A48A-45F3-BD32-B8803A44C51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4177BA33-A48A-45F3-BD32-B8803A44C51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4177BA33-A48A-45F3-BD32-B8803A44C51E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{DD16CF96-FD1E-46D6-B560-40D8B95157A8} = {52C2B67E-7470-4C9A-9682-DFEC5DCC7471}
 		{0FDF7D77-9914-4EF1-8AB8-D653F1E47557} = {52C2B67E-7470-4C9A-9682-DFEC5DCC7471}
 		{89B4FB83-7B2A-465F-88EC-724B71DFCB8C} = {52C2B67E-7470-4C9A-9682-DFEC5DCC7471}
+		{4177BA33-A48A-45F3-BD32-B8803A44C51E} = {9FA1F729-C0B3-40E5-A5A1-7FD268A2C83E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CF0558F-4AC4-4698-A5FC-46B210BFFBED}

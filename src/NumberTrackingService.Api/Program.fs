@@ -1,25 +1,44 @@
-namespace NumberTrackingService.Api
+module NumberTrackingService.Api.Program
 
 open System
-open System.Collections.Generic
-open System.IO
-open System.Linq
-open System.Threading.Tasks
-open Microsoft.AspNetCore
+open Giraffe
 open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.Configuration
-open Microsoft.Extensions.Logging
+open Microsoft.Extensions.DependencyInjection
+open NumberTrackingService.Infrastructure.Configuration
+open Microsoft.AspNetCore.Builder
+open Argu
+open Microsoft.AspNetCore.Cors.Infrastructure
 
-module Program =
-    let exitCode = 0
+type Arguments =
+    | Config_Source of ConfigSource
+with
+    interface IArgParserTemplate with
+        member s.Usage = 
+            match s with
+            | Config_Source _ -> "Specify the source of the configuration."
 
-    let CreateWebHostBuilder args =
-        WebHost
-            .CreateDefaultBuilder(args)
-            .UseStartup<Startup>();            
+let configureCors (builder: CorsPolicyBuilder) = 
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader() |> ignore
 
-    [<EntryPoint>]
-    let main args =
-        CreateWebHostBuilder(args).Build().Run()
+let configureServices (services : IServiceCollection) =
+    services.AddCors() |> ignore
+    services.AddGiraffe() |> ignore
 
-        exitCode
+let configureApplication (configSource: ConfigSource) (app: IApplicationBuilder) = 
+    let config = loadConfig<App.ApiConfiguration> configSource
+    app.UseCors(configureCors).UseGiraffe(App.app config)
+
+[<EntryPoint>]
+let main args =
+    let parser = ArgumentParser.Create<Arguments>()
+    let results = parser.Parse args
+    let configSource = results.GetResult(Config_Source, defaultValue = App_Settings)
+
+    WebHostBuilder()
+        .UseKestrel()
+        .ConfigureServices(configureServices)
+        .Configure(Action<IApplicationBuilder> (configureApplication configSource))
+        .Build()
+        .Run()
+
+    0

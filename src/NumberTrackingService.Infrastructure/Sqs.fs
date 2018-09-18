@@ -4,33 +4,39 @@ open Amazon.SQS
 open Amazon.SQS.Model
 open System.Threading
 open Newtonsoft.Json
+open NumberTrackingService.Infrastructure.Logging
+
+type QueueMessage<'a> = { MessageId: string; ReceiptHandle: string; Body: 'a }
 
 let receiveMessagesAsync<'a> (sqsClient:IAmazonSQS) queueUrl () = async {
     let req = ReceiveMessageRequest queueUrl
     let! rsp = sqsClient.ReceiveMessageAsync req |> Async.AwaitTask
-    return rsp.Messages |> Seq.map (fun x -> JsonConvert.DeserializeObject<'a> x.Body)
+
+    return rsp.Messages 
+    |> Seq.map (fun x -> { 
+        MessageId = x.MessageId
+        ReceiptHandle = x.ReceiptHandle
+        Body = JsonConvert.DeserializeObject<'a> x.Body 
+    })
 }
 
-let sendMessageAsync (sqsClient:IAmazonSQS) queueUrl message =
+let deleteMessageAsync (sqsClient:IAmazonSQS) queueUrl receiptHandle =
+    DeleteMessageRequest(queueUrl, receiptHandle)
+    |> sqsClient.DeleteMessageAsync
+    |> Async.AwaitTask 
+    |> Async.Ignore
+
+let enqueueAsync<'a> (sqsClient:IAmazonSQS) queueUrl (message:'a) =
     SendMessageRequest(queueUrl, JsonConvert.SerializeObject message)
     |> sqsClient.SendMessageAsync 
     |> Async.AwaitTask 
     |> Async.Ignore
-
-let listenToQueue receiveMessagesAsync handleMessage (cancellationToken:CancellationToken) =
-    let rec loop () = async {
-        let! messages = receiveMessagesAsync ()
-        messages |> Seq.iter handleMessage
-
-        if cancellationToken.IsCancellationRequested 
-        then 
-            let log = Logging.logger "SQS"
-            log <| Logging.Info "Graceful shutdown received"
-            return ()
-        else return! loop ()
-    }
-
-    loop ()
+    
+let enqueueFifoAsync<'a> (sqsClient:IAmazonSQS) queueUrl (message:'a) messageGroupId messageDeduplicationId =
+    SendMessageRequest(queueUrl, JsonConvert.SerializeObject message, MessageGroupId = "abc", MessageDeduplicationId = "def")
+    |> sqsClient.SendMessageAsync 
+    |> Async.AwaitTask 
+    |> Async.Ignore
 
 let createClient useLocalStack = 
     let config = 
@@ -39,3 +45,33 @@ let createClient useLocalStack =
         else AmazonSQSConfig ()
        
     new AmazonSQSClient(config)
+
+type SqsClient (queueUrl, localStackEnabled) = 
+    let log = logger "SqsClient"
+    let _sqsClient = createClient localStackEnabled
+
+    member x.ListenToQueueAsync<'a> handleMessage (ct:CancellationToken) = 
+        let receive = receiveMessagesAsync<'a> _sqsClient queueUrl
+        let delete = deleteMessageAsync _sqsClient queueUrl
+
+        let rec loop () = async {
+            if ct.IsCancellationRequested then return ()
+
+            let! messages = receive ()
+            messages |> Seq.iter (fun msg -> 
+                handleMessage msg.Body 
+                delete msg.ReceiptHandle |> Async.RunSynchronously)
+
+            return! loop ()
+        }
+
+        loop ()
+    
+    member x.EnqueueAsync<'a> message = enqueueAsync<'a> _sqsClient queueUrl message
+    member x.EnqueueFifoAsync<'a> message messageGroupId deduplicationId = 
+        enqueueFifoAsync<'a> 
+            _sqsClient 
+            queueUrl 
+            message 
+            messageGroupId 
+            deduplicationId

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="ProcessorTests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup />
+
+  <ItemGroup>
+    <PackageReference Include="Expecto" Version="8.3.0" />
+    <PackageReference Include="Expecto.VisualStudio.TestAdapter" Version="9.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NumberTrackingService.Client\NumberTrackingService.Client.fsproj" />
+    <ProjectReference Include="..\..\src\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj" />
+    <ProjectReference Include="..\..\src\NumberTrackingService.Models\NumberTrackingService.Models.fsproj" />
+  </ItemGroup>
+
+</Project>
