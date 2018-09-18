@@ -5,10 +5,16 @@ open Amazon.SQS.Model
 open System.Threading
 open Newtonsoft.Json
 open NumberTrackingService.Infrastructure.Logging
+open System.Net.Http
+open System
 
 type QueueMessage<'a> = { MessageId: string; ReceiptHandle: string; Body: 'a }
 
 let receiveMessagesAsync<'a> (sqsClient:IAmazonSQS) queueUrl () = async {
+    let log = logger "Receive"
+    log <| Info (sprintf "%s" sqsClient.Config.ServiceURL)
+    log <| Info (sprintf "%s" queueUrl)
+
     let req = ReceiveMessageRequest queueUrl
     let! rsp = sqsClient.ReceiveMessageAsync req |> Async.AwaitTask
 
@@ -38,17 +44,18 @@ let enqueueFifoAsync<'a> (sqsClient:IAmazonSQS) queueUrl (message:'a) messageGro
     |> Async.AwaitTask 
     |> Async.Ignore
 
-let createClient useLocalStack = 
+let createClient backend =
     let config = 
-        if useLocalStack 
-        then AmazonSQSConfig (ServiceURL = "http://localhost:4576") 
-        else AmazonSQSConfig ()
-       
+        match backend with
+        | (true, Some url) -> AmazonSQSConfig (ServiceURL = url)
+        | (true, None)     -> AmazonSQSConfig (ServiceURL = "http://localhost:4576")
+        | _                -> AmazonSQSConfig ()
+    
     new AmazonSQSClient(config)
 
-type SqsClient (queueUrl, localStackEnabled) = 
+type SqsClient (queueUrl, infrastructure) = 
     let log = logger "SqsClient"
-    let _sqsClient = createClient localStackEnabled
+    let _sqsClient = createClient infrastructure
 
     member x.ListenToQueueAsync<'a> handleMessage (ct:CancellationToken) = 
         let receive = receiveMessagesAsync<'a> _sqsClient queueUrl
@@ -57,11 +64,12 @@ type SqsClient (queueUrl, localStackEnabled) =
         let rec loop () = async {
             if ct.IsCancellationRequested then return ()
 
+            log <| Debug "Receiving Messages"
             let! messages = receive ()
             messages |> Seq.iter (fun msg -> 
                 handleMessage msg.Body 
                 delete msg.ReceiptHandle |> Async.RunSynchronously)
-
+                
             return! loop ()
         }
 

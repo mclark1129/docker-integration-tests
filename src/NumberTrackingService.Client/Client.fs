@@ -10,8 +10,8 @@ type INumberTrackingServiceClient =
     abstract member SendUpdateRequestAsync : LocationNumber -> Async<unit>
     abstract member GetLocationNumberAsync : Guid -> Async<int>
 
-type NumberTrackingServiceClient (config: ClientConfiguration) =
-    let _sqsClient = Sqs.SqsClient(config.NumberTrackingServiceQueueUrl, config.LocalStackEnabled)
+type NumberTrackingServiceClient (config: ClientConfiguration, backend) =
+    let _sqsClient = Sqs.SqsClient(config.NumberTrackingServiceQueueUrl, backend)
     let _httpClient = new HttpClient(BaseAddress = Uri config.NumberTrackingServiceApiUrl)
     interface INumberTrackingServiceClient with
         member x.SendUpdateRequestAsync msg = 

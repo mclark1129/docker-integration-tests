@@ -34,7 +34,7 @@ let messageHandler saveNumber (message:LocationNumber) =
 
     saveNumber message
 
-let createServiceHost source = 
+let createServiceHost source backend = 
     let log = logger "Bootstrapper"
 
     log <| Info "Starting Service..."
@@ -42,7 +42,8 @@ let createServiceHost source =
 
     let saveNumber = Db.saveNumber config.ConnectionString
     let handler = messageHandler saveNumber
-    let client = Sqs.SqsClient(config.LocationNumberRequestQueueUrl, config.LocalStackEnabled)
+
+    let client = Sqs.SqsClient(config.LocationNumberRequestQueueUrl, backend)
 
     HostBuilder().ConfigureServices(
         fun services -> 

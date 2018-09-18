@@ -11,14 +11,14 @@
     </Content>
     <Compile Include="ProcessorTests.fs" />
     <Compile Include="Program.fs" />
+    <None Include="Dockerfile" />
   </ItemGroup>
 
   <ItemGroup />
 
   <ItemGroup>
-    <PackageReference Include="Expecto" Version="8.3.0" />
-    <PackageReference Include="Expecto.VisualStudio.TestAdapter" Version="9.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="Argu" Version="5.1.0" />
+    <PackageReference Include="Expecto" Version="8.3.0" />    
   </ItemGroup>
 
   <ItemGroup>

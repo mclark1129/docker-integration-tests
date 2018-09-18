@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Dockerfile" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NumberTrackingService.Infrastructure\NumberTrackingService.Infrastructure.fsproj" />
     <ProjectReference Include="..\NumberTrackingService.Models\NumberTrackingService.Models.fsproj" />
   </ItemGroup>

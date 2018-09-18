@@ -4,5 +4,4 @@
 type ClientConfiguration = {
     NumberTrackingServiceQueueUrl: string
     NumberTrackingServiceApiUrl: string
-    LocalStackEnabled: bool
 }

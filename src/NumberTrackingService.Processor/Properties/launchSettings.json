@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "NumberTrackingService.Processor": {
+      "commandName": "Project"
+    }
+  }
+}

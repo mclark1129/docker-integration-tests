@@ -10,8 +10,9 @@ services:
       - SERVICES=sqs
   processor:
     build: ./src/NumberTrackingService.Processor
+    env_file: ./integration-tests.env
     environment:
-      - "ProcessorConfiguration:LocationNumberRequestUrl=http://sqs:4576/queue/location-number-requests_fifo"
+      - "ProcessorConfiguration:LocationNumberRequestQueueUrl=http://localstack:4576/queue/location-number-requests_fifo"
       - "ProcessorConfiguration:ConnectionString=Host=postgres;User ID=postgres;Password=postgres;Database=location_numbers;Pooling=true"
       - "ProcessorConfiguration:LocalStackEnabled=true"
     depends_on:
@@ -19,6 +20,7 @@ services:
       - postgres
   api:
     build: ./src/NumberTrackingService.Api
+    env_file: ./integration-tests.env
     environment:
       - "ApiConfiguration:ConnectionString=Host=postgres;User ID=postgres;Password=postgres;Database=location_numbers;Pooling=true"
       - "ProcessorConfiguration:LocalStackEnabled=true"
@@ -26,9 +28,11 @@ services:
       - postgres
   tests:
     build: ./tests/NumberTrackingService.IntegrationTests
+    env_file: ./integration-tests.env
     environment:
-      - "ClientConfiguration:NumberTrackingServiceQueueUrl=http://sqs:4576/queue/location-number-requests_fifo"
+      - "ClientConfiguration:NumberTrackingServiceQueueUrl=http://localstack:4576/queue/location-number-requests_fifo"
       - "ClientConfiguration:NumberTrackingServiceApiUrl=http://api/"
+      - "ClientConfiguration:LocalStackEnabled=true"
     depends_on:
       - processor
       - api 
