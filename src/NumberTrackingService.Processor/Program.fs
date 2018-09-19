@@ -1,6 +1,5 @@
 ﻿open Argu
 open Microsoft.Extensions.Hosting
-open NumberTrackingService.Infrastructure
 open NumberTrackingService.Infrastructure.Logging
 open NumberTrackingService.Infrastructure.Configuration
 open NumberTrackingService.Processor.Bootstrapper
@@ -28,6 +27,7 @@ let main argv =
     let serviceHost = createServiceHost configSource (useLocalStack, localSqsUrl)
 
     let log = logger "Startup"
+    Thread.Sleep 10000
     serviceHost.RunConsoleAsync().Wait()
 
     0 // return an integer exit code

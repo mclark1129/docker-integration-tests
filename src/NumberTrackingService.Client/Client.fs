@@ -16,8 +16,8 @@ type NumberTrackingServiceClient (config: ClientConfiguration, backend) =
     interface INumberTrackingServiceClient with
         member x.SendUpdateRequestAsync msg = 
             _sqsClient.EnqueueFifoAsync msg 
-                msg.LocationId 
-                (Guid.NewGuid())
+                (msg.LocationId.ToString())
+                (Guid.NewGuid().ToString())
 
         member x.GetLocationNumberAsync locationId = async {
             let! response = _httpClient.GetAsync (sprintf "locations/%A" locationId) |> Async.AwaitTask

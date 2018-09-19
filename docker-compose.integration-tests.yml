@@ -11,6 +11,8 @@ services:
   processor:
     build: ./src/NumberTrackingService.Processor
     env_file: ./integration-tests.env
+    deploy:
+      replicas: 3
     environment:
       - "ProcessorConfiguration:LocationNumberRequestQueueUrl=http://localstack:4576/queue/location-number-requests_fifo"
       - "ProcessorConfiguration:ConnectionString=Host=postgres;User ID=postgres;Password=postgres;Database=location_numbers;Pooling=true"

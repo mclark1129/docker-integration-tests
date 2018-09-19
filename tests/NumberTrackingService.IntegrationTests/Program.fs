@@ -34,5 +34,7 @@ let main argv =
     let config = loadConfig<ClientConfiguration> configSource
     log <| Debug (sprintf "Loading Configuration (%O)" configSource)
 
+    log <| Debug "Waiting to Start"
+    Thread.Sleep 20000
     let client = NumberTrackingServiceClient(config, (useLocalStack, localSqsUrl))
     Tests.runTests defaultConfig <| Tests.testSequenced (ProcessorTests.tests client)
