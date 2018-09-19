@@ -11,7 +11,7 @@ type QueueMessage<'a> = { MessageId: string; ReceiptHandle: string; Body: 'a }
 let receiveMessagesAsync<'a> (sqsClient:IAmazonSQS) queueUrl () = async {
     let log = logger "SQS Receive"
     try 
-        let req = ReceiveMessageRequest(queueUrl, MaxNumberOfMessages=10, WaitTimeSeconds=10)
+        let req = ReceiveMessageRequest(queueUrl, MaxNumberOfMessages=1, WaitTimeSeconds=10)
 
         log <| Info "Receiving Messages"
         let! rsp = sqsClient.ReceiveMessageAsync req |> Async.AwaitTask
@@ -41,8 +41,7 @@ let enqueueAsync<'a> (sqsClient:IAmazonSQS) queueUrl (message:'a) =
     |> Async.Ignore
     
 let enqueueFifoAsync<'a> (sqsClient:IAmazonSQS) queueUrl (message:'a) messageGroupId messageDeduplicationId =
-    let log = logger "Enqueue Message"
-    log <| Info (sprintf "Message Group Enqueue: %s" messageGroupId)
+    let log = logger "Enqueue"
     try 
         SendMessageRequest(queueUrl, JsonConvert.SerializeObject message, MessageGroupId = messageGroupId, MessageDeduplicationId = messageDeduplicationId)
         |> sqsClient.SendMessageAsync 

@@ -23,10 +23,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.integration-tests.yml = docker-compose.integration-tests.yml
 		docker-compose.yml = docker-compose.yml
 		integration-tests.env = integration-tests.env
+		publish.ps1 = publish.ps1
+		publishandruntests.ps1 = publishandruntests.ps1
 		runtests.ps1 = runtests.ps1
+		startlocalenv.ps1 = startlocalenv.ps1
 	EndProjectSection
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NumberTrackingService.IntegrationTests", "tests\NumberTrackingService.IntegrationTests\NumberTrackingService.IntegrationTests.fsproj", "{4177BA33-A48A-45F3-BD32-B8803A44C51E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment", "{5FFC3655-AD8B-4D0C-979F-3772CA9D3ABC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "localstack", "localstack", "{E53C3959-3242-41C6-97FA-F8802BD25E35}"
+	ProjectSection(SolutionItems) = preProject
+		environment\localstack\Dockerfile = environment\localstack\Dockerfile
+		environment\localstack\sqs_starter.py = environment\localstack\sqs_starter.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postgres", "postgres", "{6B1DE39F-E7D0-4375-B51F-493C316253C9}"
+	ProjectSection(SolutionItems) = preProject
+		environment\postgres\Dockerfile = environment\postgres\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F300D1CA-C6CF-4CCA-8872-647A5DD3CCC0}"
+	ProjectSection(SolutionItems) = preProject
+		environment\postgres\Scripts\0001 - Create location_number table.sql = environment\postgres\Scripts\0001 - Create location_number table.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +90,9 @@ Global
 		{0FDF7D77-9914-4EF1-8AB8-D653F1E47557} = {52C2B67E-7470-4C9A-9682-DFEC5DCC7471}
 		{89B4FB83-7B2A-465F-88EC-724B71DFCB8C} = {52C2B67E-7470-4C9A-9682-DFEC5DCC7471}
 		{4177BA33-A48A-45F3-BD32-B8803A44C51E} = {9FA1F729-C0B3-40E5-A5A1-7FD268A2C83E}
+		{E53C3959-3242-41C6-97FA-F8802BD25E35} = {5FFC3655-AD8B-4D0C-979F-3772CA9D3ABC}
+		{6B1DE39F-E7D0-4375-B51F-493C316253C9} = {5FFC3655-AD8B-4D0C-979F-3772CA9D3ABC}
+		{F300D1CA-C6CF-4CCA-8872-647A5DD3CCC0} = {6B1DE39F-E7D0-4375-B51F-493C316253C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CF0558F-4AC4-4698-A5FC-46B210BFFBED}
